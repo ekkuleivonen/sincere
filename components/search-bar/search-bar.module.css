@@ -1,0 +1,25 @@
+.searchBar {
+}
+.searchForm {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.searchBar input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  padding: 0.5rem 50px;
+  border-radius: 0.5rem;
+  background-color: var(--theme-card-bg);
+  color: var(--theme-main-text);
+}
+
+.searchIcon {
+  pointer-events: none;
+  position: absolute;
+  left: 15px;
+  top: auto;
+}
