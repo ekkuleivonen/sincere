@@ -1,0 +1,29 @@
+.actionBar {
+  width: calc(100% - 158px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 34px 0.5em 0px;
+}
+.actionBar p {
+  color: var(--theme-secondary-text);
+  font-weight: 500;
+  font-size: 0.8em;
+}
+.actionBarLeft {
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+}
+.action {
+  margin: 0em 1em 0em 0em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.actionIcon {
+  margin-right: 0.5em;
+  color: var(--theme-secondary-text);
+  cursor: pointer;
+  pointer-events: none;
+}

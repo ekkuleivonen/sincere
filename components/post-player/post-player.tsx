@@ -1,14 +1,8 @@
+import { useState } from "react";
 import styles from "./post-player.module.css";
-import useWindowSize from "../../hooks/useWindowSize";
-import {
-  ThumbsUp,
-  ThumbsDown,
-  MessageSquare,
-  Share,
-  Bookmark,
-  ChevronDown,
-} from "react-feather";
-import { serialize } from "v8";
+import ActionBar from "../action-bar/action-bar";
+import LikesCounter from "../likes-counter/likes-counter";
+import { ThumbsUp, ThumbsDown } from "react-feather";
 
 //likes
 //img
@@ -17,15 +11,18 @@ import { serialize } from "v8";
 //comment count
 
 export default function PostPlayer() {
-  const windowSize = useWindowSize();
+  const [showTranscript, setShowTranscript] = useState<boolean>(false);
+
+  const toggleTranscript = (e: Event) => {
+    if (!showTranscript) setShowTranscript(true);
+    if (showTranscript) setShowTranscript(false);
+    return true;
+  };
+
   return (
     <div className={styles.postPlayer}>
       <div className={styles.upperDiv}>
-        <div className={styles.likesDiv}>
-          <ThumbsUp className={styles.actionIcon} />
-          <p>23</p>
-          <ThumbsDown className={styles.actionIcon} />
-        </div>
+        <LikesCounter direction={"vertical"} />
         <img
           src="https://avatars.githubusercontent.com/u/92802215?v=4"
           alt="post-thumbnail"
@@ -38,25 +35,19 @@ export default function PostPlayer() {
       </div>
 
       <div className={styles.lowerDiv}>
-        <div className={styles.actionBar}>
-          <div className={styles.actionBarLeft}>
-            <div className={styles.action}>
-              <MessageSquare className={styles.actionIcon} />
-              {windowSize.width > 1200 && <p>400 Comments</p>}
-            </div>
-            <div className={styles.action}>
-              <Share className={styles.actionIcon} />
-              {windowSize.width > 1200 && <p>Share</p>}
-            </div>
-            <div className={styles.action}>
-              <Bookmark />
-              {windowSize.width > 1200 && <p>Save</p>}
-            </div>
-          </div>
-          <ChevronDown className={styles.actionIcon} />
-        </div>
-        <div className={styles.divider} />
-        <div className={styles.transcript}>
+        <ActionBar toggleTranscript={toggleTranscript} />
+        <div
+          className={
+            showTranscript ? `${styles.divider} ${styles.open}` : styles.divider
+          }
+        />
+        <div
+          className={
+            showTranscript
+              ? `${styles.transcript} ${styles.open}`
+              : styles.transcript
+          }
+        >
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

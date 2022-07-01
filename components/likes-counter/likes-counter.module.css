@@ -1,0 +1,28 @@
+.actionIcon {
+  color: var(--theme-secondary-text);
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.likesDiv {
+  margin: 10px;
+}
+
+.vertical {
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+}
+
+.likesDiv p {
+  margin: 5px;
+  color: var(--theme-secondary-text);
+  font-size: 0.8em;
+  font-weight: 500;
+}
