@@ -1,5 +1,6 @@
 .searchBar {
   position: relative;
+  width: 40vw;
 }
 .searchForm {
   position: relative;

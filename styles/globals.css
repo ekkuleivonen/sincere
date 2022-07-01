@@ -14,6 +14,8 @@
   --theme-main-bg: #4b4b4b;
   --theme-secondary-bg: #4d4d4d;
   --theme-card-bg: #3a3a3a;
+  --theme-line-color: #7a7979;
+  --theme-border-color: #3c3c3c;
 }
 
 body {
@@ -28,4 +30,11 @@ h5,
 h6,
 p {
   color: var(--theme-main-text);
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
