@@ -1,4 +1,5 @@
 .searchBar {
+  position: relative;
 }
 .searchForm {
   position: relative;
@@ -16,10 +17,33 @@
   background-color: var(--theme-card-bg);
   color: var(--theme-main-text);
 }
-
 .searchIcon {
   pointer-events: none;
   position: absolute;
   left: 15px;
   top: auto;
+}
+.results {
+  background-color: var(--theme-card-bg);
+  width: 100%;
+  position: absolute;
+  top: 42.5px;
+  border: 1px solid #383838;
+  box-shadow: (0px 4px 10px rgba(0, 0, 0, 0.2));
+  border-radius: 4px;
+}
+.result {
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+.result:hover {
+  background-color: var(--theme-secondary-bg);
+  cursor: pointer;
+}
+.result img {
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
 }
