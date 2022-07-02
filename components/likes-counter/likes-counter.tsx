@@ -9,9 +9,13 @@ export default function LikesCounter({ direction }: CompProps) {
   if (direction === "vertical") {
     return (
       <div className={`${styles.likesDiv} ${styles.vertical}`}>
-        <ThumbsUp className={styles.actionIcon} size={20} />
+        <div className={styles.action}>
+          <ThumbsUp className={styles.actionIcon} size={20} />
+        </div>
         <p id="likesCount">23</p>
-        <ThumbsDown className={styles.actionIcon} size={20} />
+        <div className={styles.action}>
+          <ThumbsDown className={styles.actionIcon} size={20} />
+        </div>
       </div>
     );
   }

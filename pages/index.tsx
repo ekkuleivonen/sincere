@@ -19,6 +19,14 @@ const Home: NextPage = () => {
       <main>
         <div className={styles.postCollection}>
           <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
+          <PostPlayer />
         </div>
       </main>
     </div>

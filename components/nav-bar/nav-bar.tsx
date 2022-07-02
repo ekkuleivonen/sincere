@@ -8,7 +8,7 @@ export default function NavBar() {
     <header className={styles.navBar}>
       <div className={styles.container}>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/864/864727.png"
+          src="https://storage.googleapis.com/sincere/assets/hat-filled-white-128.svg"
           alt="sincere hat logo"
           className={styles.navLogo}
         />

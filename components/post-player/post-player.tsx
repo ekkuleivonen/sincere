@@ -13,7 +13,7 @@ import { ThumbsUp, ThumbsDown } from "react-feather";
 export default function PostPlayer() {
   const [showTranscript, setShowTranscript] = useState<boolean>(false);
 
-  const toggleTranscript = (e: Event) => {
+  const toggleTranscript = (e: React.MouseEvent<Element, MouseEvent>) => {
     if (!showTranscript) setShowTranscript(true);
     if (showTranscript) setShowTranscript(false);
     return true;
@@ -35,7 +35,10 @@ export default function PostPlayer() {
       </div>
 
       <div className={styles.lowerDiv}>
-        <ActionBar toggleTranscript={toggleTranscript} />
+        <ActionBar
+          toggleTranscript={toggleTranscript}
+          post_id={"62bd9b1a685bd37a760223dc"}
+        />
         <div
           className={
             showTranscript ? `${styles.divider} ${styles.open}` : styles.divider

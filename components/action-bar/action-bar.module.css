@@ -21,9 +21,20 @@
   align-items: center;
   cursor: pointer;
 }
+
+a .action p {
+  text-decoration: none;
+}
 .actionIcon {
   margin-right: 0.5em;
   color: var(--theme-secondary-text);
   cursor: pointer;
+  pointer-events: none;
+}
+
+.copiedPopup {
+  position: fixed;
+  bottom: 50px;
+  left: 100px;
   pointer-events: none;
 }

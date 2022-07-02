@@ -1,3 +1,7 @@
+.action {
+  cursor: pointer;
+}
+
 .actionIcon {
   color: var(--theme-secondary-text);
   cursor: pointer;
