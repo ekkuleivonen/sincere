@@ -4,6 +4,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5em 34px 0.5em 0px;
+  position: relative;
+  z-index: 100000;
 }
 .actionBar p {
   color: var(--theme-secondary-text);

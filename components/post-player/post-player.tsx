@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./post-player.module.css";
 import ActionBar from "../action-bar/action-bar";
 import LikesCounter from "../likes-counter/likes-counter";
-import { ThumbsUp, ThumbsDown } from "react-feather";
+import AudioPlayer from "../audio-player/audio-player";
 
 //likes
 //img
@@ -12,6 +12,7 @@ import { ThumbsUp, ThumbsDown } from "react-feather";
 
 export default function PostPlayer() {
   const [showTranscript, setShowTranscript] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const toggleTranscript = (e: React.MouseEvent<Element, MouseEvent>) => {
     if (!showTranscript) setShowTranscript(true);
@@ -20,7 +21,11 @@ export default function PostPlayer() {
   };
 
   return (
-    <div className={styles.postPlayer}>
+    <div
+      className={styles.postPlayer}
+      onMouseOver={() => setIsHovered(!isHovered)}
+      onMouseLeave={() => setIsHovered(!isHovered)}
+    >
       <div className={styles.upperDiv}>
         <LikesCounter direction={"vertical"} />
         <img
@@ -31,6 +36,7 @@ export default function PostPlayer() {
           <h1 className={styles.title}>
             What's the meaning of anything anymore when...
           </h1>
+          <AudioPlayer isHovered={isHovered} />
         </div>
       </div>
 
