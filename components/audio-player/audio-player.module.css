@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   overflow: hidden;
+  z-index: 100;
 }
 
 .waveform {

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./audio-player.module.css";
 import PlayPauseButton from "../play-pause-button/play-pause-button";
 
-const formWaveSurferOptions = (waveformDiv: HTMLDivElement | null) => ({
+const formWaveSurferOptions = (waveformDiv: HTMLDivElement) => ({
   container: waveformDiv,
   waveColor: "#eee",
   progressColor: "orange",
@@ -14,11 +14,8 @@ const formWaveSurferOptions = (waveformDiv: HTMLDivElement | null) => ({
   normalize: true,
   partialRender: true,
 });
-interface CompProps {
-  isHovered: boolean;
-}
 
-export default function AudioPlayer({ isHovered }: CompProps) {
+export default function AudioPlayer() {
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   let isFirstRender = useRef<boolean>(true);
@@ -32,6 +29,7 @@ export default function AudioPlayer({ isHovered }: CompProps) {
       if (!isFirstRender.current) return;
       isFirstRender.current = false;
       const WaveSurfer = (await import("wavesurfer.js")).default;
+      if (waveformRef.current === null) return;
       const options = formWaveSurferOptions(waveformRef.current);
 
       wavesurfer.current = WaveSurfer.create(options);
@@ -47,7 +45,6 @@ export default function AudioPlayer({ isHovered }: CompProps) {
   }, []);
 
   const togglePlay = () => {
-    console.log("togglePlay");
     if (isPlaying) {
       wavesurfer?.current?.pause();
     } else {

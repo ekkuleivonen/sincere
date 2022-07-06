@@ -1,9 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import styles from "./nav-bar.module.css";
-import Button from "../button/button";
 import SearchBar from "../search-bar/search-bar";
+import UploadModal from "../upload/upload";
 
 export default function NavBar() {
+  const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
   return (
     <header className={styles.navBar}>
       <div className={styles.container}>
@@ -14,7 +15,13 @@ export default function NavBar() {
         />
         <SearchBar />
         <div className={styles.navMenu}>
-          <Button />
+          <button
+            onClick={() => {
+              setShowUploadModal(!showUploadModal);
+            }}
+          >
+            upload
+          </button>
           <div className={styles.navToggle}>
             <img
               src="https://cdn-icons-png.flaticon.com/512/2089/2089792.png"
@@ -24,6 +31,9 @@ export default function NavBar() {
           </div>
         </div>
       </div>
+      {showUploadModal && (
+        <UploadModal setShowUploadModal={setShowUploadModal} />
+      )}
     </header>
   );
 }
