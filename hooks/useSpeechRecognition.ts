@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { render } from "react-dom";
+import { useState, useEffect, useReducer } from "react";
 
 const initiateRecognition = () => {
   const global = window as any;
@@ -28,62 +27,59 @@ interface HookMethods {
   getTranscript: () => string[];
 }
 
-//let recognition: any | null = null;
-//let results: string[] = [];
-
 export default function useSpeechRecognition(): HookMethods {
   const [results, setResults] = useState<string[]>([]);
   const [recognitionEngine, setRecognitionEngine] = useState<any | null>(null);
-  const renderCount = useRef(0);
+  let listening = false;
 
   useEffect(() => {
-    renderCount.current += 1;
-    console.log("render count: ", renderCount.current);
-    // set recognition engine
+    // set recognition engine if it's not set
     let currentEngine: any = recognitionEngine;
     if (!currentEngine) {
       currentEngine = initiateRecognition();
+      //store engine for later use
       setRecognitionEngine(currentEngine);
     }
-    // add event listeners
-    currentEngine.addEventListener("result", (e: any) => {
-      console.log(e.results[0][0].transcript);
-      setResults([...results, e.results[0][0].transcript]);
-    });
-
-    currentEngine.addEventListener("end", () => {
-      currentEngine.start();
-    });
-
     return () => {
-      //remove event listeners
-      currentEngine.removeEventListener("result", (e: any) => {
-        setResults([...results, e.results[0][0].transcript]);
-      });
-
-      currentEngine.removeEventListener("end", () => {
-        currentEngine.start();
-      });
-
       // destroy recognition engine
       currentEngine = null;
     };
   }, []);
 
+  //METHOD 1: start recognition
   function startRecognition() {
+    // add event listener for results and looping
+    recognitionEngine.addEventListener("result", (e: any) => {
+      console.log(e.results[0][0].transcript);
+      setResults((results) => [...results, e.results[0][0].transcript]);
+    });
+    listening = true;
+    recognitionEngine.addEventListener("end", (e: any) => {
+      setLooping();
+    });
+    //start
     recognitionEngine.start();
 
     return true;
   }
 
+  //METHOD 2: stop recognition
   function stopRecognition() {
+    listening = false;
     recognitionEngine.stop();
     return true;
   }
 
+  //METHOD 3: get transcript
   function getTranscript() {
     return results;
   }
+
+  const setLooping = () => {
+    console.log(listening);
+    if (listening) return recognitionEngine.start();
+    return recognitionEngine.stop();
+  };
 
   const methodsToReturn = {
     startRecognition,
