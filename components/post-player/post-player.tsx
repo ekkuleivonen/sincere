@@ -34,9 +34,9 @@ export default function PostPlayer() {
         />
         <div className={styles.contentDiv}>
           <h1 className={styles.title}>
-            What's the meaning of anything anymore when...
+            Whats the meaning of anything anymore when...
           </h1>
-          <AudioPlayer isHovered={isHovered} />
+          <AudioPlayer />
         </div>
       </div>
 

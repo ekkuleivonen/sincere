@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useSpeechRecognition from "./useSpeechRecognition";
 
 interface Hookmethods {
   setupRecorder: () => Promise<MediaRecorder>;
@@ -12,6 +13,8 @@ export default function useAudioRecording(): Hookmethods {
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
   const [mp3Data, setMp3Data] = useState<Blob | null>(null);
   let audioChunks: Blob[] = [];
+
+  const recognition = useSpeechRecognition();
 
   useEffect(() => {
     if (recorder) {
@@ -62,6 +65,7 @@ export default function useAudioRecording(): Hookmethods {
   const startRecording = async () => {
     const currentRecorder = await setupRecorder();
     if (!currentRecorder) throw new Error("no recorder available");
+    recognition.startRecognition();
     currentRecorder.start(1000);
     return true;
   };
@@ -75,12 +79,14 @@ export default function useAudioRecording(): Hookmethods {
       throw new Error("no active recorder available");
 
     recorder.stop();
+    recognition.stopRecognition();
     return true;
   };
 
   const getMp3 = () => {
     if (mp3Data === null || mp3Data === undefined)
       throw new Error("no audio data available");
+    console.log(recognition.getTranscript());
     return mp3Data;
   };
 
