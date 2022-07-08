@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 
 const initiateRecognition = () => {
   const global = window as any;
@@ -24,14 +24,15 @@ const initiateRecognition = () => {
 interface HookMethods {
   startRecognition: () => boolean;
   stopRecognition: () => boolean;
-  getTranscript: () => string[];
+  getTranscript: () => string;
 }
 
 export default function useSpeechRecognition(): HookMethods {
   const [results, setResults] = useState<string[]>([]);
   const [recognitionEngine, setRecognitionEngine] = useState<any | null>(null);
-  let listening = false;
+  const [listening, setListening] = useState<string>("not set");
 
+  //set the recognition engine
   useEffect(() => {
     // set recognition engine if it's not set
     let currentEngine: any = recognitionEngine;
@@ -46,40 +47,51 @@ export default function useSpeechRecognition(): HookMethods {
     };
   }, []);
 
+  //handle recognition events
+  useEffect(() => {
+    if (listening === "not set") return;
+    //add event listener for results, looping, and start the recognition engine
+    if (listening === "listening") {
+      recognitionEngine.addEventListener("result", (e: any) => {
+        setResults((results) => [...results, e.results[0][0].transcript]);
+      });
+      recognitionEngine.addEventListener("end", () => {
+        recognitionEngine.start();
+      });
+      recognitionEngine.start();
+    }
+    //remove looping and stop the recognition engine
+    if (listening === "not listening") {
+      recognitionEngine.removeEventListener("end", () => {
+        recognitionEngine.start();
+      });
+      recognitionEngine.stop();
+    }
+    return () => {};
+  }, [listening]);
+
   //METHOD 1: start recognition
   function startRecognition() {
-    // add event listener for results and looping
-    recognitionEngine.addEventListener("result", (e: any) => {
-      console.log(e.results[0][0].transcript);
-      setResults((results) => [...results, e.results[0][0].transcript]);
-    });
-    listening = true;
-    recognitionEngine.addEventListener("end", (e: any) => {
-      setLooping();
-    });
-    //start
-    recognitionEngine.start();
-
+    if (!recognitionEngine) throw new Error("Recognition engine not set");
+    setListening("listening");
     return true;
   }
 
   //METHOD 2: stop recognition
   function stopRecognition() {
-    listening = false;
-    recognitionEngine.stop();
+    if (listening !== "listening") throw new Error("Not listening");
+    setListening("not listening");
     return true;
   }
 
   //METHOD 3: get transcript
   function getTranscript() {
-    return results;
+    const currentResults = [...results];
+    setResults([]);
+    return currentResults
+      .map((result) => capitalizeFirstLetter(result))
+      .join(". ");
   }
-
-  const setLooping = () => {
-    console.log(listening);
-    if (listening) return recognitionEngine.start();
-    return recognitionEngine.stop();
-  };
 
   const methodsToReturn = {
     startRecognition,
@@ -89,3 +101,8 @@ export default function useSpeechRecognition(): HookMethods {
 
   return methodsToReturn;
 }
+
+const capitalizeFirstLetter = (str: string) => {
+  const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+  return capitalized;
+};

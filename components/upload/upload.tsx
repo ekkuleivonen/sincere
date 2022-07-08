@@ -1,6 +1,7 @@
 import styles from "./upload.module.css";
 import { useState } from "react";
 import useAudioRecording from "../../hooks/useAudioRecording";
+import useSpeechRecognition from "../../hooks/useSpeechRecognition";
 
 interface CompProps {
   setShowUploadModal: (setShowUploadModal: boolean) => void;
@@ -8,7 +9,9 @@ interface CompProps {
 
 export default function UploadModal({ setShowUploadModal }: CompProps) {
   const [stage, setStage] = useState<number>(1);
+  const [transcript, setTranscript] = useState<string>("");
   const myRecorder = useAudioRecording();
+  const recognition = useSpeechRecognition();
 
   const moveToNextStage = async () => {
     switch (stage) {
@@ -18,10 +21,13 @@ export default function UploadModal({ setShowUploadModal }: CompProps) {
         break;
       case 2:
         await myRecorder.startRecording();
+        recognition.startRecognition();
         setStage(3);
         break;
       case 3:
         await myRecorder.stopRecording();
+        recognition.stopRecognition();
+        setTranscript(recognition.getTranscript());
         setStage(4);
         break;
       case 4:
@@ -39,7 +45,11 @@ export default function UploadModal({ setShowUploadModal }: CompProps) {
   return (
     <div className={styles.modalBg} id={"modalBg"} onClick={closeModal}>
       <div className={styles.modal}>
-        <UploaderStages moveToNextStage={moveToNextStage} stage={stage} />
+        <UploaderStages
+          moveToNextStage={moveToNextStage}
+          stage={stage}
+          transcript={transcript}
+        />
       </div>
     </div>
   );
@@ -48,9 +58,17 @@ export default function UploadModal({ setShowUploadModal }: CompProps) {
 interface StageProps {
   moveToNextStage: () => Promise<void>;
   stage: number;
+  transcript: string;
 }
 
-function UploaderStages({ moveToNextStage, stage }: StageProps) {
+function UploaderStages({ moveToNextStage, stage, transcript }: StageProps) {
+  const truncateText = (text: string, length: number): string => {
+    if (text.length <= length) {
+      return text;
+    }
+    return text.substring(0, length) + "\u2026";
+  };
+
   if (stage === 1) {
     return (
       <div className={styles.modalContent}>
@@ -93,12 +111,12 @@ function UploaderStages({ moveToNextStage, stage }: StageProps) {
   if (stage === 4) {
     return (
       <div className={styles.modalContent}>
-        <h1>Recording finished</h1>
+        <h1>{truncateText(transcript, 30)}</h1>
         <h1
           style={{ color: "orange", cursor: "pointer" }}
           onClick={() => moveToNextStage()}
         >
-          Log raw data
+          UPLOAD
         </h1>
       </div>
     );
