@@ -22,7 +22,10 @@ model User {
 model Post {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
-  content String
+  transcript String
+  audio_url String
+  img_url String
+  likes Int
   //relationships
   comments Comment[]
   //rel 1

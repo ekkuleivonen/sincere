@@ -1,18 +1,19 @@
-import styles from "./likes-counter.module.css";
+import styles from "./LikesCounter.module.css";
 import { ThumbsUp, ThumbsDown } from "react-feather";
 
 interface CompProps {
   direction: string;
+  likes: number;
 }
 
-export default function LikesCounter({ direction }: CompProps) {
+export default function LikesCounter({ direction, likes }: CompProps) {
   if (direction === "vertical") {
     return (
       <div className={`${styles.likesDiv} ${styles.vertical}`}>
         <div className={styles.action}>
           <ThumbsUp className={styles.actionIcon} size={20} />
         </div>
-        <p id="likesCount">23</p>
+        <p id="likesCount">{likes}</p>
         <div className={styles.action}>
           <ThumbsDown className={styles.actionIcon} size={20} />
         </div>

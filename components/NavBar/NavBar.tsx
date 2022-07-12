@@ -1,7 +1,7 @@
 import { useState } from "react";
-import styles from "./nav-bar.module.css";
-import SearchBar from "../search-bar/search-bar";
-import UploadModal from "../upload/upload";
+import styles from "./NavBar.module.css";
+import SearchBar from "../SearchBar/SearchBar";
+import UploadModal from "../Uploader/Uploader";
 
 export default function NavBar() {
   const [showUploadModal, setShowUploadModal] = useState<boolean>(false);

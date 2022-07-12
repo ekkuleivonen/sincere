@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import CommentSection from "../../components/comment-section/comment-section";
+import CommentSection from "../../components/CommentSection/CommentSection";
 import { useRouter } from "next/router";
 import type { Post, Comment } from "@prisma/client";
 

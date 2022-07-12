@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./audio-player.module.css";
-import PlayPauseButton from "../play-pause-button/play-pause-button";
+import styles from "./AudioPlayer.module.css";
+import PlayPauseButton from "./PlayPauseButton";
 
 const formWaveSurferOptions = (waveformDiv: HTMLDivElement) => ({
   container: waveformDiv,
@@ -15,14 +15,15 @@ const formWaveSurferOptions = (waveformDiv: HTMLDivElement) => ({
   partialRender: true,
 });
 
-export default function AudioPlayer() {
+export default function AudioPlayer({
+  audio_url,
+}: {
+  audio_url: string | null;
+}) {
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   let isFirstRender = useRef<boolean>(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const url =
-    "https://www.mfiles.co.uk/mp3-downloads/brahms-st-anthony-chorale-theme-two-pianos.mp3";
 
   useEffect(() => {
     const createWaves = async () => {
@@ -33,8 +34,8 @@ export default function AudioPlayer() {
       const options = formWaveSurferOptions(waveformRef.current);
 
       wavesurfer.current = WaveSurfer.create(options);
-
-      wavesurfer.current.load(url);
+      if (audio_url === null) return;
+      wavesurfer.current.load(audio_url);
     };
 
     createWaves();

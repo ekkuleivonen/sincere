@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 interface Hookmethods {
   setupRecorder: () => Promise<MediaRecorder>;
   startRecording: () => Promise<boolean>;
-  stopRecording: () => Promise<boolean>;
+  stopRecording: () => Promise<Blob[]>;
   getMp3: () => Blob;
 }
 
 export default function useAudioRecording(): Hookmethods {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
-  const [mp3Data, setMp3Data] = useState<Blob | null>(null);
+  let mp3Data: Blob | null = null;
   let audioChunks: Blob[] = [];
 
   useEffect(() => {
@@ -18,9 +18,10 @@ export default function useAudioRecording(): Hookmethods {
       recorder.addEventListener("dataavailable", (e) => {
         audioChunks.push(e.data);
       });
-      recorder.addEventListener("stop", () => {
+      recorder.addEventListener("stop", async () => {
         const blob = new Blob(audioChunks, { type: "audio/mp3" });
-        setMp3Data(blob);
+        console.log("converted blob", blob, "from", audioChunks);
+        mp3Data = blob;
       });
     }
 
@@ -31,7 +32,7 @@ export default function useAudioRecording(): Hookmethods {
         });
         recorder.removeEventListener("stop", () => {
           const blob = new Blob(audioChunks, { type: "audio/mp3" });
-          setMp3Data(blob);
+          mp3Data = blob;
         });
       }
     };
@@ -75,7 +76,7 @@ export default function useAudioRecording(): Hookmethods {
       throw new Error("no active recorder available");
 
     recorder.stop();
-    return true;
+    return audioChunks;
   };
 
   const getMp3 = () => {

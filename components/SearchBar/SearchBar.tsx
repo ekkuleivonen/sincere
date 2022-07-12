@@ -1,5 +1,5 @@
 import { ChangeEvent, useState, useEffect } from "react";
-import styles from "./search-bar.module.css";
+import styles from "./SearchBar.module.css";
 import { Search } from "react-feather";
 import Link from "next/link";
 

@@ -1,15 +1,22 @@
-import styles from "./action-bar.module.css";
-import useWindowSize from "../../hooks/useWindowSize";
+import styles from "./ActionBar.module.css";
+import useWindowSize from "../../../hooks/useWindowSize";
 import { useState } from "react";
 import { MessageSquare, Share, Bookmark, ChevronDown } from "react-feather";
 import Link from "next/link";
 
+import type { Comment } from "@prisma/client";
+
 interface CompProps {
   toggleTranscript: (e: React.MouseEvent<Element, MouseEvent>) => boolean;
   post_id: string;
+  comments: Comment[];
 }
 
-export default function ActionBar({ toggleTranscript, post_id }: CompProps) {
+export default function ActionBar({
+  toggleTranscript,
+  post_id,
+  comments,
+}: CompProps) {
   const [showCopied, setShowCopied] = useState<boolean>(false);
 
   const windowSize = useWindowSize();
@@ -36,7 +43,9 @@ export default function ActionBar({ toggleTranscript, post_id }: CompProps) {
         <Link href={`/posts/${post_id}/#comments`}>
           <div className={styles.action}>
             <MessageSquare className={styles.actionIcon} size={20} />
-            {windowSize.width && windowSize.width > 1200 && <p>400 Comments</p>}
+            {windowSize.width && windowSize.width > 1200 && (
+              <p>{`${comments.length} Comments`}</p>
+            )}
           </div>
         </Link>
         <div className={styles.action} onClick={copyToClipboard}>
