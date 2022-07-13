@@ -18,21 +18,12 @@ export default function useAudioRecording(): Hookmethods {
       recorder.addEventListener("dataavailable", (e) => {
         audioChunks.push(e.data);
       });
-      recorder.addEventListener("stop", async () => {
-        const blob = new Blob(audioChunks, { type: "audio/mp3" });
-        console.log("converted blob", blob, "from", audioChunks);
-        mp3Data = blob;
-      });
     }
 
     return () => {
       if (recorder) {
         recorder.removeEventListener("dataavailable", (e) => {
           audioChunks.push(e.data);
-        });
-        recorder.removeEventListener("stop", () => {
-          const blob = new Blob(audioChunks, { type: "audio/mp3" });
-          mp3Data = blob;
         });
       }
     };
@@ -80,8 +71,8 @@ export default function useAudioRecording(): Hookmethods {
   };
 
   const getMp3 = () => {
-    if (mp3Data === null || mp3Data === undefined)
-      throw new Error("no audio data available");
+    const blob = new Blob(audioChunks, { type: "audio/mp3" });
+    mp3Data = blob;
     return mp3Data;
   };
 

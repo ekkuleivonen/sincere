@@ -1,0 +1,24 @@
+.editables {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleInput {
+  appearance: none;
+  border: none;
+  background: none;
+  font-size: 1.5em;
+  color: white;
+  outline: none;
+  margin: 0px 0px 10px 10px;
+}
+.transcriptInput {
+  appearance: none;
+  border: none;
+  background: none;
+  resize: none;
+  font-size: 1em;
+  color: white;
+  outline: none;
+  margin: 0px 0px 10px 10px;
+}

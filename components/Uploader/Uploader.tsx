@@ -63,7 +63,13 @@ export default function UploadModal({ setShowUploadModal }: CompProps) {
             stopRecognition={recognition.stopRecognition}
           />
         )}
-        {stage === 4 && <Stage4 setStage={setStage} />}
+        {stage === 4 && (
+          <Stage4
+            setStage={setStage}
+            getAudioData={myRecorder.getMp3}
+            getTranscript={recognition.getTranscript}
+          />
+        )}
       </div>
     </div>
   );

@@ -16,9 +16,9 @@ const formWaveSurferOptions = (waveformDiv: HTMLDivElement) => ({
 });
 
 export default function AudioPlayer({
-  audio_url,
+  audioData,
 }: {
-  audio_url: string | null;
+  audioData: string | Blob;
 }) {
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
@@ -34,8 +34,12 @@ export default function AudioPlayer({
       const options = formWaveSurferOptions(waveformRef.current);
 
       wavesurfer.current = WaveSurfer.create(options);
-      if (audio_url === null) return;
-      wavesurfer.current.load(audio_url);
+      if (audioData === null) return;
+      if (typeof audioData === "string") {
+        wavesurfer.current.load(audioData);
+      } else {
+        wavesurfer.current.loadBlob(audioData);
+      }
     };
 
     createWaves();

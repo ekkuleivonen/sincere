@@ -11,7 +11,7 @@ export type PostPlayerPost = {
   id: string;
   title: string | null;
   transcript: string | null;
-  audio_url: string | null;
+  audio_url: string;
   img_url: string | null;
   comments: Comment[];
   likes: number;
@@ -37,7 +37,7 @@ export default function PostPlayer({ post }: PostPlayerProps) {
         {post.img_url && <img src={post.img_url} alt="post-thumbnail" />}
         <div className={styles.contentDiv}>
           <h1 className={styles.title}>{post.title}</h1>
-          <AudioPlayer audio_url={post.audio_url} />
+          <AudioPlayer audioData={post.audio_url} />
         </div>
       </div>
 
